@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="chrome://browser/content/contentSearchUI.css" />
     <link rel="stylesheet" href="chrome://activity-stream/content/css/activity-stream.css" />
   </head>
-  <!-- Cached: Mon, 02 Oct 2023 08:17:54 GMT -->
+  <!-- Cached: Mon, 02 Oct 2023 08:38:04 GMT -->
   <body class="activity-stream">
     <div id="header-asrouter-container" role="presentation"></div>
     <div id="root">
@@ -48,9 +48,9 @@ window.__STARTUP_STATE__ = {
 			},
 			{
 				"bookmarkGuid": null,
-				"frecency": 300,
+				"frecency": 400,
 				"guid": "zSMUcR2YUG3t",
-				"lastVisitDate": 1696234564008,
+				"lastVisitDate": 1696235736374,
 				"title": "Google –ü–µ—Ä–µ–≤–æ–¥—á–∏–∫",
 				"url": "https://translate.google.com/?hl=ru&sl=en&tl=ru&op=translate",
 				"type": "history",
@@ -198,9 +198,9 @@ window.__STARTUP_STATE__ = {
 			},
 			{
 				"bookmarkGuid": null,
-				"frecency": 300,
+				"frecency": 400,
 				"guid": "zSMUcR2YUG3t",
-				"lastVisitDate": 1696234564008,
+				"lastVisitDate": 1696235736374,
 				"title": "Google –ü–µ—Ä–µ–≤–æ–¥—á–∏–∫",
 				"url": "https://translate.google.com/?hl=ru&sl=en&tl=ru&op=translate",
 				"type": "history",
@@ -877,4 +877,4 @@ window.__STARTUP_STATE__ = {
 	}
 };
 
-_9@·‰Û           e|≤F_zˇˇˇˇ       :about:home alt-data 1;50976,script version 20230912072954  t,
+H®Î≥Nö           eÅlFb¡ˇˇˇˇ       :about:home alt-data 1;50976,script version 20230912072954  t,
