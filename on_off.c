@@ -5,69 +5,56 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+#define BLUE (1 << 0)
+#define RED (1 << 1)
 #include "on_off.h"
-void tesst(char * c)
-{
 
-	int n;
-	n = atoi(c);
-///	printf("%s",c);
+int leds;
+
+void swit (int led, int state){
 	
-///	if (n ==2){
-///		printf("rrrr");
-///		}
-///printf("%s"f);
-}	
+	if (state) {
+        	leds |= led; 
+    	}else {
+        	leds &= ~led; 
+    	}
+    	wr(leds);
+}
+
+	
 void on_off (char * v)
 {
-	int st;
-	st = atoi (v);
-	if (st > 9 | st < 1){
-		printf("Wrong arguments\n");
-	}	
-	int a;
+	int st = atoi (v);	
 	switch (st){
 		case (1):
-			a = 1;
-			wr(a);
-			diods(a);
-			break;
+		    	swit(BLUE, 1);
+		    	diods();
+		    	break;
 		case (2):
-			a = 2;
-			wr(a);
-			diods(a);
-			break; 
+		    	swit(RED, 1);
+		    	diods();
+		    	break;
 		case (3):
-			a = 3;
-			wr(a);
-			diods(a);
-			break; 
+			swit(BLUE, 0);
+			diods();
+			break;
 		case (4):
-			a = 4;
-			wr(a);
-			diods(a);
+			swit(RED, 0);
+			diods();
 			break;
 		case (5):
-			a = 1;
-			wr(a);
-			diods(a);
-			a = 2;
-			wr(a);
-			diods(a);
+			swit(BLUE, 1);
+			swit(RED, 1);
+			diods();
 			break;
 		case (6):
-			a = 3;
-			wr(a);
-			diods(a);
-			a = 4;
-			wr(a);
-			diods(a);
-			break;
-			
+		    	swit(BLUE, 0);
+		    	swit(RED, 0);
+		    	diods();
+		    	break;
 		case (7):
 			sst();
 			break;		
-			
 		case (8):
 			srand(time(NULL));
 			int min = 1;
@@ -81,85 +68,97 @@ void on_off (char * v)
 				sleep(random);
 				i = i + 1; 
 			}
-			break;			
+			break;
+		case (9):
+			clean();
+			wr(0);
+			break;	
+		default:
+            		printf("Wrong arguments\n");
+            		break; 				
 	}
 	
 }
 
+int clean() {
+	
+    	const char *filename = "my_file1.txt";
+
+    	FILE *file = fopen(filename, "w"); 
+    	if (file == NULL) {
+        	perror("Ошибка при открытии файла");
+        	return 1;
+    	}
+
+    	fclose(file); 
+
+    	printf("Файл \"%s\" очищен.\n", filename);
+
+    	return 0;
+}
+
 int wr(int w)
 {
-	FILE *file1, *file2;
+	FILE *file1;
 	file1 = fopen("my_file1.txt", "a");
-	file2 = fopen("my_file2.txt", "a");
+//	file2 = fopen("my_file2.txt", "a");
 	
-	if (file1 == NULL || file2 == NULL){
+	if (file1 == NULL ){
 		printf("not open\n");
 		return 1;
 	}
+	leds = w;
 	
-	int y = w;
-	if (y == 1 || y == 3){
-		fprintf(file1,"%d\n", y);
-	}else if (y == 2 || y == 4){
-		fprintf(file2,"%d\n", y);
-	}
+//	if (w == 1 || w == 3){
+		fprintf(file1,"%d\n", leds);
+//	}else if (w == 2 || w == 4){
+//		fprintf(file2,"%d\n", w);
+//	}
+
 	fclose(file1);
-	fclose(file2);
+//	fclose(file2);
 	return 0;
 }
 
 int sst()
 {
-	FILE *file1, *file2;
+	FILE *file1;
 	file1 = fopen("my_file1.txt", "r");
-	file2 = fopen("my_file2.txt", "r");
-	if (file1 == NULL || file2 == NULL){
+	
+	if (file1 == NULL ){
 		printf("not open\n");
 		return 1;
 	}
-	int y;
-	int array[2];
-	int lastNumber1 = 0;
-	int lastNumber2 = 0;
+	
+	int lastNumber = 0;
 	int currentNumber;
 
 	while (fscanf(file1, "%d", &currentNumber) != EOF){
-		lastNumber1 = currentNumber;
-	}
-	
-	while (fscanf(file2, "%d", &currentNumber) != EOF){
-		lastNumber2 = currentNumber;
+		lastNumber = currentNumber;
 	}	
 ;
-	array[0] = lastNumber1;
-	array[1]= lastNumber2;
-	
 	printf("status:\n");
-	for(int i = 0; i < 2; i++)
-		diods(array[i]);
-			
+	
+	diods();
+
+	
+	fscanf(file1, "%d", &lastNumber);			
 	fclose(file1);
-	fclose(file2);
+	
 	return 0;
 		
 }
 
-int diods(int a)
-{	
-	switch(a){
-		case (1):
-			printf("blue diod is on\n");
-			break;
-		case (2):
-			printf("red diod is on\n");
-			break;	
-		case (3):
-			printf("blue diod is off\n");
-			break;
-		case (4):
-			printf("red diod is off\n");
-			break;	
-	}		
+void diods(){
+    if ((leds & BLUE) && (leds & RED)) {
+        printf("Blue and red diods are on\n");
+    } else if (leds & BLUE) {
+        printf("Blue diod is on, red diod is off\n");
+    } else if (leds & RED) {
+        printf("Red diod is on, blue diod is off\n");
+    } else {
+        printf("Blue and red diods are off\n");
+    }
 }
 
 
