@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 #include "on_off.h"
 void tesst(char * c)
 {
@@ -68,11 +69,16 @@ void on_off (char * v)
 			break;		
 			
 		case (8):
+			srand(time(NULL));
+			int min = 1;
+			int max = 10;
 			for(int i = 0; i < 10;i++){
+				int random = min + rand() % (max - min + 1);
 				printf("BLUE\n");
-				sleep(1);
+				sleep(random);
+				random = min + rand() % (max - min + 1);
 				printf("RED\n");
-				sleep(1);
+				sleep(random);
 				i = i + 1; 
 			}
 			break;			
